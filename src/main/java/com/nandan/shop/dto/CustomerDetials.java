@@ -6,7 +6,15 @@ public class CustomerDetials {
 	private String customerLName;
 	private String address;
 	private String phoneno;
+	private String bengaliName;
 	
+	
+	public String getBengaliName() {
+		return bengaliName;
+	}
+	public void setBengaliName(String bengaliName) {
+		this.bengaliName = bengaliName;
+	}
 	public Long getId() {
 		return id;
 	}

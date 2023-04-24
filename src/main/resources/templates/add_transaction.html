@@ -1,212 +1,252 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Create New Employee</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    
+<meta charset="UTF-8">
+<title>Create New Employee</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
 </head>
 <body>
 
 
-<div class="container my-3">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <h4>Add Transaction</h4>
-             <a th:href="@{listCustomer}"
-					class="btn btn-success"> <i class="fa fa-arrow-circle-o-left"></i> Customer List
-					
-				</a> 
-				
-				<a th:href="@{download}"
-					class="btn btn-success"> <i class="fa fa-arrow-circle-o-left"></i> Transaction Report
-					
-				</a>  
-					
-	
-            <form th:action="@{/saveTransaction}" th:object="${transaction}" method="post">
-                <div class="form-row">
-                    <div class="col-md-6 form-group">
-                        <label>Customer Name</label>
-                          <input type="text" readonly="readonly" class="form-control" th:field="*{customerName}">
-                        <input type="hidden"  class="form-control"  th:field="*{customerId}">
-                    </div>
-                     <div class="col-md-6 form-group">
-                        <label>Transaction Date</label>
-                        <input autocomplete="off" required="required" type="text" class="form-control" placeholder="dd-MM-yyyy" id="tranc_datepicker" th:field="*{transactionDate}">
-                    </div>
-                    
-                    <div class="col-md-6 form-group">
-                        <label>Transaction Type</label>
-                        <select required="required" class="form-control" th:field="*{transactionType}">
-                            <option value="">Choose...</option>
-                            <option value="SALE">Sale</option>
-                            <option value="RETURN">Return</option>
-                            <option value="DIPOSITE">Diposit</option>
-                            <option value="Poilaboishak">Diposit</option>
-                        </select>
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label> Description</label>
-                        <input required="required" type="text" class="form-control" th:field="*{desc}">
-                    </div>
-                    <div class="col-md-6 form-group ">
-                        <label> Diposited Amount</label>
-                        <input type="number" value="0.00" class="form-control bg-success text-white" th:field="*{dipAmount}">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label> Withdral  Amount</label>
-                        <input type="number" value="0.00" class="form-control bg-warning " th:field="*{widAmount}">
-                    </div>
-                    
-                    <div class="col-md-6 form-group">
-                        <label> Diposited Gold</label>
-                        <input type="number" step=0.001    class="form-control bg-success text-white" th:field="*{dipGold}">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label> Withdral  Gold</label>
-                        <input type="number" step=0.001  value="0.0" class="form-control bg-warning " th:field="*{widGold}">
-                    </div>
-                    
-                     <div class="col-md-6 form-group">
-                        <label> Diposited Silver</label>
-                        <input type="number" step=0.001  value="0.0" class="form-control bg-success text-white" th:field="*{dipSilver}">
-                    </div>
-                    <div class="col-md-6 form-group">
-                        <label> Withdral  Silver</label>
-                        <input type="number" step=0.001  value="0.0" class="form-control bg-warning" th:field="*{widSilver}">
-                    </div>
-                    
-                   
-                    
-                </div>
-                <button type="submit" class="btn btn-primary btn-block mt-3">Save Transaction</button>
-            </form>
-            <div class="alert alert-success">
- 		 <strong>Success!</strong> Indicates a successful or positive action.
-		</div>
-		
-		<div class="alert alert-success" role="alert">
-  <h4 class="alert-heading">Over All Balance</h4>
-  <p>Amount Balance: RS <span th:text="${overall.amountBal}"/> </p>
-  <hr>
-  <p class="mb-0">Gold Balance : <span th:text="${overall.goldBal}"/> gm.</p>
-   <hr>
-  <p class="mb-0">Silver Balance : <span th:text="${overall.silverBal}"/>gm.</p>
-</div>
-        </div>
-        </div>
-      
-       
-      
-      
-        
-    <div class="row">
-     <div class="col-md-8 mx-auto">
-    Other Transaction:
-    
-    <table class="table table-bordered table-striped">
-    <thead>
-					<tr>
-						<th>T No.</th>
-						<th>Date</th>
-						<th>Diposite</th>
-						<th>Withdrawl</th>
-						<th>Desctiption</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="tran: ${exsistingAmout}">
-						<td >
-						<!-- target="_blank" -->
-						<a th:text="${tran.transactID}" th:href="@{'transEdit'(tid=${tran.transactID})}" /></td>
-						<td th:text="${tran.transactionDate}" />
-						<td th:text="${tran.dipAmount}" />
-						<td th:text="${tran.widAmount}" />
-						<td th:text="${tran.desc}" />
-						
-						
-					</tr>
-				</tbody>
-				</table>
-	</div>
-	</div>
-	
-	 <div class="row">
-     <div class="col-md-8 mx-auto">
-    Gold Transaction:
-    
-    <table class="table table-bordered table-striped">
-    <thead>
-					<tr>
-						<th>T No.</th>
-						<th>Date</th>
-						<th>Gold Diposite</th>
-						<th>Gold Withdrawl</th>
-						<th>Desctiption</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="tran: ${exsistingGold}">
-					<td >
-						<!-- target="_blank" -->
-						<a th:text="${tran.transactID}" th:href="@{'transEdit'(tid=${tran.transactID})}" /></td>
-						
-						<td th:text="${tran.transactionDate}" />
-						<td th:text="${tran.dipGold}" />
-						<td th:text="${tran.widGold}" />
-						<td th:text="${tran.desc}" />
-						
-						
-					</tr>
-				</tbody>
-				</table>
-	</div>
-	</div>
-	
-	 <div class="row">
-     <div class="col-md-8 mx-auto">
-    Silver Transaction:
-    
-    <table class="table table-bordered table-striped">
-    <thead>
-					<tr>
-						<th>T No.</th>
-						<th>Date</th>
-						<th>Silver Diposite</th>
-						<th>Silver Withdrawl</th>
-						<th>Desctiption</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="tran: ${exsistingSilver}">
-					<td >
-						<!-- target="_blank" -->
-						<a th:text="${tran.transactID}" th:href="@{'transEdit'(tid=${tran.transactID})}" /></td>
-						
-						<td th:text="${tran.transactionDate}" />
-						<td th:text="${tran.dipSilver}" />
-						<td th:text="${tran.widSilver}" />
-						<td th:text="${tran.desc}" />
-								
-					</tr>
-				</tbody>
-				</table>
-	</div>
-	</div>
-				
-</div>
-			
+	<div class="container my-3">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<h4>Transaction For :<span th:text="${transaction.customerName}" /> </h4>
+				<a th:href="@{listCustomer}" class="btn btn-success"> <i
+					class="fa fa-arrow-circle-o-left"></i> Customer List
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
- <script>
+				</a> <a th:href="@{download}" class="btn btn-success"> <i
+					class="fa fa-arrow-circle-o-left"></i> Transaction Report
+
+				</a>
+				
+				</a> <a onclick="myFunction()" class="btn btn-success"> <i
+					class="fa fa-arrow-circle-o-left"></i> Add Transaction
+
+				</a>
+				
+				<div class="alert alert-success" th:if="${status} == 'success'">
+					<strong>Success!</strong> Data stored for the customer
+				</div>
+				<br>
+
+<div id="addtransaction">
+				<form th:action="@{/saveTransaction}" th:object="${transaction}"
+					method="post">
+					<div class="form-row">
+						<div class="col-md-6 form-group">
+							<label>Customer Name</label> <input type="text"
+								readonly="readonly" class="form-control"
+								th:field="*{customerName}"> <input type="hidden"
+								class="form-control" th:field="*{customerId}">
+						</div>
+						<div class="col-md-6 form-group">
+							<label>Transaction Date</label> <input autocomplete="off"
+								required="required" type="text" class="form-control"
+								placeholder="dd-MM-yyyy" id="tranc_datepicker"
+								th:field="*{transactionDate}">
+						</div>
+
+						<div class="col-md-6 form-group">
+							<label>Transaction Type</label> <select required="required"
+								class="form-control" th:field="*{transactionType}">
+								<option value="">Choose...</option>
+								<option value="SALE">Sale</option>
+								<option value="RETURN">Return</option>
+								<option value="DIPOSITE">Diposit</option>
+								<option value="Poilaboishak">Diposit</option>
+							</select>
+						</div>
+						<div class="col-md-6 form-group">
+							<label> Description</label> <input required="required"
+								type="text" class="form-control" th:field="*{desc}">
+						</div>
+						<div class="col-md-6 form-group ">
+							<label> Diposited Amount</label> <input type="number"
+								value="0.00" class="form-control bg-success text-white"
+								th:field="*{dipAmount}">
+						</div>
+						<div class="col-md-6 form-group">
+							<label> Withdral Amount</label> <input type="number" value="0.00"
+								class="form-control bg-warning " th:field="*{widAmount}">
+						</div>
+
+						<div class="col-md-6 form-group">
+							<label> Diposited Gold</label> <input type="number" step=0.001
+								class="form-control bg-success text-white" th:field="*{dipGold}">
+						</div>
+						<div class="col-md-6 form-group">
+							<label> Withdral Gold</label> <input type="number" step=0.001
+								value="0.0" class="form-control bg-warning "
+								th:field="*{widGold}">
+						</div>
+
+						<div class="col-md-6 form-group">
+							<label> Diposited Silver</label> <input type="number" step=0.001
+								value="0.0" class="form-control bg-success text-white"
+								th:field="*{dipSilver}">
+						</div>
+						<div class="col-md-6 form-group">
+							<label> Withdral Silver</label> <input type="number" step=0.001
+								value="0.0" class="form-control bg-warning"
+								th:field="*{widSilver}">
+						</div>
+
+
+
+					</div>
+					<button type="submit" class="btn btn-primary btn-block mt-3">Save
+						Transaction</button>
+				</form>
+				
+			</div>	
+				<br>
+				
+
+				<div class="alert alert-success" role="alert">
+					<h4 class="alert-heading">Over All Balance</h4>
+					<p>
+						Amount Balance: Rs: <span th:text="${overall.amountBal}" />
+					</p>
+					<hr>
+					<p class="mb-0">
+						Gold Balance : <span th:text="${overall.goldBal}" /> gm.
+					</p>
+					<hr>
+					<p class="mb-0">
+						Silver Balance : <span th:text="${overall.silverBal}" />gm.
+					</p>
+				</div>
+			</div>
+		</div>
+
+
+
+
+
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				Other Transaction:
+
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>T No.</th>
+							<th>Date</th>
+							<th>Diposite</th>
+							<th>Withdrawl</th>
+							<th>Desctiption</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="tran: ${exsistingAmout}">
+							<td>
+								<!-- target="_blank" --> <a th:text="${tran.transactID}"
+								th:href="@{'transEdit'(tid=${tran.transactID})}" />
+							</td>
+							<td th:text="${tran.transactionDate}" />
+							<td th:text="${tran.dipAmount}" />
+							<td th:text="${tran.widAmount}" />
+							<td th:text="${tran.desc}" />
+
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				Gold Transaction:
+
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>T No.</th>
+							<th>Date</th>
+							<th>Gold Diposite</th>
+							<th>Gold Withdrawl</th>
+							<th>Desctiption</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="tran: ${exsistingGold}">
+							<td>
+								<!-- target="_blank" --> <a th:text="${tran.transactID}"
+								th:href="@{'transEdit'(tid=${tran.transactID})}" />
+							</td>
+
+							<td th:text="${tran.transactionDate}" />
+							<td th:text="${tran.dipGold}" />
+							<td th:text="${tran.widGold}" />
+							<td th:text="${tran.desc}" />
+
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				Silver Transaction:
+
+				<table class="table table-bordered table-striped">
+					<thead>
+						<tr>
+							<th>T No.</th>
+							<th>Date</th>
+							<th>Silver Diposite</th>
+							<th>Silver Withdrawl</th>
+							<th>Desctiption</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="tran: ${exsistingSilver}">
+							<td>
+								<!-- target="_blank" --> <a th:text="${tran.transactID}"
+								th:href="@{'transEdit'(tid=${tran.transactID})}" />
+							</td>
+
+							<td th:text="${tran.transactionDate}" />
+							<td th:text="${tran.dipSilver}" />
+							<td th:text="${tran.widSilver}" />
+							<td th:text="${tran.desc}" />
+
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</div>
+
+
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+	<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+	<script>
 	$(function() {
 		$("#tranc_datepicker").datepicker({dateFormat:"dd-mm-yy"});
-		
+		x = document.getElementById("addtransaction");
+		x.style.display = "none";
 	});
 	
+     function myFunction() {
+         var x = document.getElementById("addtransaction");
+         if (x.style.display === "none") {
+             x.style.display = "block";
+         } else {
+             x.style.display = "none";
+         }
+     }
+
 	
 </script>
 </body>

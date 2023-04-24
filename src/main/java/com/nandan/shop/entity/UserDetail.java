@@ -35,8 +35,14 @@ public class UserDetail implements Serializable {
 
 	@Column(name="m_name")
 	private String mName;
+	
 	@Column(name="phone")
 	private String phone;
+	
+	
+	@Column(name="bengali_name")
+	private String bengaliName;
+
 	
 	@javax.persistence.Transient
 	private boolean isTransactionAvailable; 
@@ -125,6 +131,14 @@ public class UserDetail implements Serializable {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public String getBengaliName() {
+		return bengaliName;
+	}
+
+	public void setBengaliName(String bengaliName) {
+		this.bengaliName = bengaliName;
 	}
 
 	

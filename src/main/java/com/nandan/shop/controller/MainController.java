@@ -1,19 +1,25 @@
 package com.nandan.shop.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.nandan.shop.dto.CustomerDetials;
+import com.nandan.shop.dto.Generic;
+import com.nandan.shop.dto.Response;
 import com.nandan.shop.dto.TransactionDetails;
 import com.nandan.shop.service.MainService;
 
@@ -61,6 +67,7 @@ public class MainController {
 		model.addAttribute("exsistingGold", allTransactionOfUser.stream().filter(x->x.getTranccat().contains("G")).collect(Collectors.toList()));
 		model.addAttribute("exsistingSilver",allTransactionOfUser.stream().filter(x->x.getTranccat().contains("S")).collect(Collectors.toList()));
 		model.addAttribute("overall",sainService.getOverAllBalance(allTransactionOfUser));
+		model.addAttribute("status","success");
 		return "add_transaction";
 	}
 	
@@ -112,6 +119,26 @@ public class MainController {
 		model.addAttribute("transaction", allTransactionOfUser);
 		model.addAttribute("customer", customer);
 		return "show_report";
+	}
+	
+	@PostMapping("/savedeposit")
+	public ResponseEntity<Response> addTransactionJson(@RequestBody Generic transaction) {	
+		TransactionDetails transactionObj=new TransactionDetails();
+		transactionObj.setCustomerId(Long.parseLong(transaction.getCustId().trim()));
+		transactionObj.setDipAmount(new BigDecimal(transaction.getAmount()));
+		transactionObj.setTransactionDate("14-04-2023");
+		transactionObj.setTransactionType("Diposite");
+		transactionObj.setDesc("Poilabaishak");
+		
+		TransactionDetails data=sainService.addTransaction(transactionObj);
+		Response dataResponse=new Response("Transaction saved for:"+data.getTransactID());
+		return new ResponseEntity<Response>(dataResponse,HttpStatus.OK);
+	}
+	
+	@GetMapping("/test")
+	public ResponseEntity<String> addTransactionJson() {	
+		//sainService.addTransaction(transaction);
+		return new ResponseEntity<String>("success",HttpStatus.OK);
 	}
 	
 

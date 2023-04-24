@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -60,7 +61,8 @@ public class MainServiceImpl implements MainService {
 				data.setTransType(transaction.getTransactionType());
 				data.setTransStat(0);
 				data.setTransDescription(transaction.getDesc());
-				transrepo.save(data);
+				data=transrepo.save(data);
+				transaction.setTransactID(data.getTransactionId());
 			} catch (Exception e) {
 				return null;
 			}
@@ -78,9 +80,15 @@ public class MainServiceImpl implements MainService {
 			CustomerDetials obj = new CustomerDetials();
 			obj.setId(each.getId());
 			obj.setCustomerFName(each.getFName());
+			if(each.getMName().equals("") || Objects.isNull(each.getMName()) ) {
+				obj.setCustomerLName(each.getLName());
+			}else {
+				obj.setCustomerLName(each.getLName()+" "+ each.getLName());
+			}
 			obj.setCustomerLName(each.getLName());
 			obj.setAddress(each.getLocation());
 			obj.setPhoneno(each.getPhone());
+			obj.setBengaliName(each.getBengaliName());
 			data.add(obj);
 		});
 
@@ -245,6 +253,7 @@ public class MainServiceImpl implements MainService {
 			obj.setCustomerLName(each.get().getLName());
 			obj.setAddress(each.get().getLocation());
 			obj.setPhoneno(each.get().getPhone());
+			obj.setBengaliName(each.get().getBengaliName());
 			return obj;
 		}
 		return null;

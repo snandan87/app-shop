@@ -1,7 +1,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	
 	<head>
-		<title>List Customer</title>
+		<title>All  Customer</title>
 		
 		<link rel="stylesheet" 
 			type="text/css" 
@@ -27,15 +27,26 @@
 					<tr>
 						<th>Name</th>
 						<th>Address</th>
+						<th>Bengali Name</th>
 						<th>Phone</th>
+						<th>PoilaBoishak</th>
 						<th>Actions</th>
+						
 					</tr>
 				</thead>
 				<tbody>
 					<tr th:each="customer: ${customers}">
 						<td th:text="${customer.customerFName}+ ' ' + ${customer.customerLName}" />
 						<td th:text="${customer.address}" />
+						<td th:text="${customer.bengaliName}" />
 						<td th:text="${customer.phoneno}" />
+						<td>
+						<input  th:name="${customer.id}" type="number"
+								value="" class="form-control bg-success text-white">
+								
+						<a id="searchButton" name="searchButton" th:attr="onclick=|retrieveGuests('${customer.id}')|" type="button"  class="btn btn-danger ml-2"
+                   >Save</a>		
+						</td>
 						<td>
 							<a th:href="@{add_transaction(customer=${customer.id},customerName=${customer.customerFName}+ ' ' + ${customer.customerLName})}" class="btn btn-danger ml-2">Show Transaction</a>
 						</td>
@@ -56,6 +67,39 @@
     				}]
 				});
 			})
+		
+	
+			 function retrieveGuests(id) {
+				var amount = document.getElementsByName(id)[0].value;
+				 var dataSubmit = {}
+				 dataSubmit["custId"] = id;
+				 dataSubmit["amount"] = amount;
+			 
+				
+				$.ajax({
+		            type: "POST",
+		            contentType: "application/json",
+		            url: "savedeposit",
+		            data: JSON.stringify(dataSubmit),
+		            dataType: 'json',
+		            cache: false,
+		            timeout: 600000,
+		            success: function (data) {
+		 
+		                console.log("SUCCESS : ", data);
+		                alert("Data saved");
+		 
+		            },
+		            error: function (e) {
+		 
+		 
+		                console.log("ERROR : ", e);
+		              
+		 
+		            }
+		        });
+		        
+			}
 		</script>
 	</body>
 	
